@@ -23,11 +23,11 @@ async function start() {
   <div class="page-shell">
     <SiteHeader />
     <main class="content-wrap">
-      <section class="grid min-h-[calc(100dvh-4rem)] items-center gap-10 py-10 lg:grid-cols-[.95fr_1.05fr] lg:gap-15 lg:py-20">
+      <section class="welcome-layout grid min-h-[calc(100dvh-4rem)] items-center gap-10 py-10 lg:gap-15 lg:py-20">
         <div class="relative z-10 min-w-0">
           <p class="eyebrow mb-6">The value experiment / 001</p>
           <h1 class="headline max-w-[800px] uppercase">The Price<br><span class="serif italic font-normal">of Nothing.</span></h1>
-          <div class="mt-8 h-px w-25 bg-[#bb603d]" />
+          <div class="mt-8 h-px w-25 bg-[#746a5c]" />
           <p class="mt-8 max-w-lg text-2xl font-medium leading-snug md:text-3xl">How much is something really worth?</p>
           <p class="mt-4 max-w-lg text-base leading-relaxed muted md:text-lg">Explore everyday products, estimate what you would pay, then discover what shaped your choices.</p>
           <div class="mt-9 flex flex-wrap items-center gap-4">
@@ -51,7 +51,9 @@ async function start() {
 </template>
 
 <style scoped>
-.hero-gallery { position: relative; }
+.welcome-layout { grid-template-columns: minmax(0, 1fr); }
+.hero-gallery { position: relative; grid-template-columns: minmax(0, 1.18fr) minmax(0, .82fr); }
 .hero-gallery img { display: block; transition: transform .5s ease; }
 .hero-gallery > div:hover img { transform: scale(1.025); }
+@media (min-width: 1024px) { .welcome-layout { grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); } }
 </style>

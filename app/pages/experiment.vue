@@ -33,7 +33,7 @@ async function submitPrice() {
 </script>
 
 <template>
-  <div class="page-shell">
+  <div class="page-shell" :class="{ 'page-shell--editorial': session?.presentation?.style === 'editorial' }">
     <SiteHeader />
     <main class="content-wrap py-6 md:py-10">
       <div v-if="loadError || !session?.presentation" class="mx-auto max-w-xl py-24 text-center">

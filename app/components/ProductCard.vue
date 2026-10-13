@@ -1,91 +1,69 @@
 <script setup lang="ts">
 import type { Presentation } from '../../shared/types/experiment'
 
-const props = defineProps<{ presentation: Presentation }>()
-const gallery = ref<HTMLElement | null>(null)
-const currentImage = ref(0)
-
-function showImage(index: number) {
-  const next = Math.max(0, Math.min(index, props.presentation.images.length - 1))
-  gallery.value?.scrollTo({ left: next * gallery.value.clientWidth, behavior: 'smooth' })
-  currentImage.value = next
-}
-
-function syncImage() {
-  if (gallery.value?.clientWidth) currentImage.value = Math.round(gallery.value.scrollLeft / gallery.value.clientWidth)
-}
+defineProps<{ presentation: Presentation }>()
 </script>
 
 <template>
-  <article class="product-card" :class="`product-card--${presentation.style}`">
-    <div class="product-gallery">
-      <div ref="gallery" class="gallery-track" aria-label="Product photo gallery" @scroll.passive="syncImage">
-        <div v-for="(photo, index) in presentation.images" :key="photo" class="gallery-slide">
-          <img :src="photo" :alt="`${presentation.name}, view ${index + 1}`" :fetchpriority="index === 0 ? 'high' : undefined" :loading="index === 0 ? 'eager' : 'lazy'">
-        </div>
-      </div>
-      <div class="gallery-controls" aria-label="Gallery controls">
-        <button type="button" aria-label="Previous photo" :disabled="currentImage === 0" @click="showImage(currentImage - 1)">←</button>
-        <span aria-live="polite">{{ currentImage + 1 }} / {{ presentation.images.length }}</span>
-        <button type="button" aria-label="Next photo" :disabled="currentImage === presentation.images.length - 1" @click="showImage(currentImage + 1)">→</button>
-      </div>
-      <div class="gallery-thumbnails" aria-label="Choose product photo">
-        <button v-for="(photo, index) in presentation.images" :key="photo" type="button" :class="{ 'is-active': currentImage === index }" :aria-label="`Show photo ${index + 1}`" :aria-pressed="currentImage === index" @click="showImage(index)">
-          <img :src="photo" alt="" loading="lazy">
-        </button>
-      </div>
-    </div>
-    <div class="product-copy">
-      <p class="product-kicker">{{ presentation.kicker }}</p>
-      <h2 class="product-title">{{ presentation.name }}</h2>
-      <p class="product-description">{{ presentation.description }}</p>
-      <div class="product-detail-heading">Product details</div>
-      <ul class="product-specifications" aria-label="Product details">
+  <article v-if="presentation.style === 'catalog'" class="catalog-product">
+    <ProductGallery :images="presentation.images" :name="presentation.name" variant="catalog" />
+    <div class="catalog-copy">
+      <p class="catalog-kicker">{{ presentation.kicker }}</p>
+      <h2 class="catalog-title">{{ presentation.name }}</h2>
+      <p class="catalog-description">{{ presentation.description }}</p>
+      <div class="catalog-detail-heading">Product details</div>
+      <ul class="catalog-specifications" aria-label="Product details">
         <li v-for="specification in presentation.specifications" :key="specification">{{ specification }}</li>
       </ul>
+    </div>
+  </article>
+  <article v-else class="editorial-product">
+    <div class="editorial-cover">
+      <ProductGallery :images="presentation.images" :name="presentation.name" variant="editorial" />
+      <div class="editorial-cover-copy">
+        <p class="editorial-index">{{ presentation.kicker }}</p>
+        <h2>{{ presentation.name }}</h2>
+      </div>
+    </div>
+    <div class="editorial-story">
+      <div class="editorial-rule"><span>Form &amp; function</span><span>Composition</span></div>
+      <p class="editorial-description">{{ presentation.description }}</p>
+      <div class="editorial-specifications">
+        <p>Composition &amp; details</p>
+        <ul aria-label="Product details"><li v-for="specification in presentation.specifications" :key="specification">{{ specification }}</li></ul>
+      </div>
     </div>
   </article>
 </template>
 
 <style scoped>
-.product-card { display: grid; background: #fff; color: #171717; }
-.product-card--catalog { border: 1px solid #dededb; }
-.product-card--editorial { background: #fff; }
-.product-gallery { position: relative; min-width: 0; background: #f1f0ed; }
-.gallery-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-inline: contain; }
-.gallery-track::-webkit-scrollbar { display: none; }
-.gallery-slide { flex: 0 0 100%; aspect-ratio: 1 / 1; scroll-snap-align: start; overflow: hidden; }
-.gallery-slide img { width: 100%; height: 100%; display: block; object-fit: cover; }
-.product-card--catalog .gallery-slide img { object-position: center 32%; }
-.product-card--editorial .gallery-slide img { object-position: center 30%; }
-.gallery-controls { position: absolute; right: 1rem; bottom: 1rem; display: flex; align-items: center; gap: .55rem; padding: .35rem; border: 1px solid #ffffffa8; border-radius: 999px; background: #fffc; backdrop-filter: blur(16px); font-size: .7rem; font-weight: 700; box-shadow: 0 5px 20px #00000012; }
-.gallery-controls button { width: 2rem; height: 2rem; border: 0; border-radius: 50%; background: transparent; font-size: 1rem; }
-.gallery-controls button:hover:not(:disabled) { background: #fff; }
-.gallery-controls button:disabled { opacity: .3; }
-.gallery-thumbnails { display: none; gap: .5rem; padding: .7rem; background: #fff; }
-.gallery-thumbnails button { width: 3.1rem; aspect-ratio: 1; padding: 0; overflow: hidden; border: 1px solid #ddd; background: #f4f4f2; opacity: .68; }
-.gallery-thumbnails button.is-active { border: 2px solid #161616; opacity: 1; }
-.gallery-thumbnails img { width: 100%; height: 100%; object-fit: cover; }
-.product-copy { padding: 1.55rem 1.4rem 2rem; }
-.product-kicker { color: #68655e; font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
-.product-title { max-width: 17ch; margin-top: .8rem; font-size: clamp(1.8rem, 3vw, 3rem); line-height: 1.1; letter-spacing: -.045em; font-weight: 700; }
-.product-description { max-width: 36rem; margin-top: 1rem; color: #53514d; font-size: .94rem; line-height: 1.6; }
-.product-detail-heading { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #e5e3df; color: #383631; font-size: .72rem; font-weight: 750; letter-spacing: .09em; text-transform: uppercase; }
-.product-specifications { display: flex; flex-wrap: wrap; gap: .4rem .9rem; margin: .85rem 0 0; padding: 0; list-style: none; color: #5d5a55; font-size: .8rem; }
-.product-specifications li + li::before { content: '·'; margin-right: .9rem; color: #a8a39a; }
-.product-card--editorial .gallery-slide { aspect-ratio: 4 / 5; }
-.product-card--editorial .product-copy { padding-top: 2.6rem; padding-bottom: 3rem; }
-.product-card--editorial .product-kicker { color: #555; font-size: .62rem; letter-spacing: .16em; }
-.product-card--editorial .product-title { max-width: 21ch; margin-top: 1.4rem; font-size: clamp(1.75rem, 2.8vw, 2.8rem); font-weight: 600; letter-spacing: -.02em; line-height: 1.16; text-transform: uppercase; }
-.product-card--editorial .product-description { margin-top: 1.8rem; color: #373737; }
-@media (min-width: 680px) { .gallery-thumbnails { display: flex; } }
+.catalog-product { display: grid; border: 1px solid #dededb; background: #fff; color: #171717; }
+.catalog-copy { padding: 1.6rem 1.4rem 2rem; }
+.catalog-kicker { color: #68655e; font-size: .66rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.catalog-title { max-width: 20ch; margin-top: .7rem; font-size: clamp(1.75rem, 3vw, 2.75rem); line-height: 1.12; letter-spacing: -.047em; font-weight: 620; }
+.catalog-description { max-width: 34rem; margin-top: 1rem; color: #53514d; font-size: .95rem; line-height: 1.65; }
+.catalog-detail-heading { margin-top: 2.2rem; padding-top: 1.1rem; border-top: 1px solid #e5e3df; color: #383631; font-size: .7rem; font-weight: 750; letter-spacing: .11em; text-transform: uppercase; }
+.catalog-specifications { display: grid; gap: .7rem; margin: 1rem 0 0; padding: 0; list-style: none; color: #5d5a55; font-size: .85rem; }
+.catalog-specifications li::before { content: '•'; margin-right: .7rem; color: #a8a39a; }
+.editorial-product { background: #121314; }
+.editorial-cover { position: relative; overflow: hidden; background: #1c1e1f; }
+.editorial-cover::after { content: ''; position: absolute; z-index: 1; inset: 52% 0 0; pointer-events: none; background: linear-gradient(transparent, #0c0d0ec4 88%); }
+.editorial-cover-copy { position: absolute; z-index: 2; right: 1.5rem; bottom: 5.4rem; left: 1.5rem; pointer-events: none; }
+.editorial-index { font-size: .66rem; font-weight: 700; letter-spacing: .23em; text-transform: uppercase; color: #fffdfa; text-shadow: 0 1px 9px #000; }
+.editorial-cover-copy h2 { max-width: 18ch; margin-top: .9rem; color: #fffdfa; font-size: clamp(2.3rem, 6.1vw, 6rem); font-weight: 400; line-height: .96; letter-spacing: -.065em; text-transform: uppercase; text-wrap: balance; text-shadow: 0 2px 16px #0008; }
+.editorial-story { display: grid; gap: 2.4rem; padding: 2rem 1.5rem 2.5rem; }
+.editorial-rule { display: flex; justify-content: space-between; gap: 1rem; border-top: 1px solid #5c5b58; padding-top: .75rem; color: #b7b3ad; font-size: .63rem; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; }
+.editorial-description { max-width: 38ch; font-family: "Iowan Old Style", Baskerville, Georgia, serif; font-size: clamp(1.55rem, 2.5vw, 2.5rem); line-height: 1.23; letter-spacing: -.025em; }
+.editorial-specifications { display: grid; gap: .8rem; border-top: 1px solid #4b4c4b; padding-top: 1rem; }
+.editorial-specifications p { color: #c4b69e; font-size: .66rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.editorial-specifications ul { display: flex; flex-wrap: wrap; gap: .5rem 1.2rem; margin: 0; padding: 0; list-style: none; color: #b5b3af; font-size: .82rem; }
+.editorial-specifications li + li::before { content: '·'; margin-right: 1.2rem; }
 @media (min-width: 960px) {
-  .product-card { grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); align-items: stretch; }
-  .product-copy { display: flex; flex-direction: column; align-items: start; justify-content: center; padding: clamp(2rem, 3vw, 4rem); }
-  .product-detail-heading { width: 100%; }
-  .gallery-slide { aspect-ratio: 4 / 5; max-height: 640px; }
-  .product-card--editorial { grid-template-columns: minmax(0, 1.3fr) minmax(0, .7fr); }
-  .product-card--editorial .gallery-slide { aspect-ratio: 2 / 3; max-height: 720px; }
-  .product-card--editorial .product-copy { justify-content: end; padding-bottom: clamp(3rem, 6vw, 6rem); }
+  .catalog-product { grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr); }
+  .catalog-copy { display: flex; flex-direction: column; align-items: start; justify-content: center; padding: clamp(2rem, 4vw, 5rem); }
+  .catalog-detail-heading { width: 100%; }
+  .editorial-cover-copy { right: 3rem; bottom: 3.2rem; left: 3rem; }
+  .editorial-story { grid-template-columns: minmax(0, .7fr) minmax(0, 1.3fr) minmax(0, .8fr); align-items: start; gap: 3rem; padding: 2.5rem 3rem 3rem; }
+  .editorial-rule { display: grid; gap: .8rem; }
 }
 </style>

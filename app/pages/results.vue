@@ -66,7 +66,7 @@ async function newExperiment() {
               <article v-for="category in results.categories" :key="category.category" class="panel p-6">
                 <h3 class="serif text-2xl">{{ category.categoryName }}</h3>
                 <div class="mt-7 space-y-5">
-                  <div v-for="bar in [{ label: 'Listing', value: category.ordinaryAverage, color: 'bg-[#aaa59d]' }, { label: 'Editorial', value: category.premiumAverage, color: 'bg-[#bc6843]' }]" :key="bar.label">
+                  <div v-for="bar in [{ label: 'Listing', value: category.ordinaryAverage, color: 'bg-[#aaa59d]' }, { label: 'Editorial', value: category.premiumAverage, color: 'bg-[#746a5c]' }]" :key="bar.label">
                     <div class="mb-2 flex justify-between gap-3 text-sm"><span>{{ bar.label }}</span><strong>{{ euro(bar.value) }}</strong></div>
                     <div class="h-3 bg-[#ebe8e2]"><div class="h-full transition-[width] duration-500" :class="bar.color" :style="{ width: barWidth(bar.value, Math.max(category.ordinaryAverage, category.premiumAverage)) }" /></div>
                   </div>
@@ -97,7 +97,7 @@ async function newExperiment() {
               <div class="mt-8 space-y-5">
                 <div v-for="reason in results.reasons" :key="reason.key">
                   <div class="mb-2 flex justify-between gap-3 text-sm"><span>{{ reason.label }}</span><strong>{{ reason.count }}</strong></div>
-                  <div class="h-2 bg-[#ebe8e2]"><div class="h-full bg-[#bc6843]" :style="{ width: barWidth(reason.count, results.completedCount) }" /></div>
+                  <div class="h-2 bg-[#ebe8e2]"><div class="h-full bg-[#746a5c]" :style="{ width: barWidth(reason.count, results.completedCount) }" /></div>
                 </div>
               </div>
             </div>

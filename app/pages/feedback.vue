@@ -50,8 +50,8 @@ async function submitFeedback() {
         <fieldset>
           <legend class="mb-5 text-sm font-bold tracking-[.12em] uppercase">Select one reason</legend>
           <div class="grid gap-3">
-            <label v-for="option in options" :key="option.key" class="flex min-h-16 cursor-pointer items-center gap-4 border p-4 transition-colors" :class="reason === option.key ? 'border-[#b95d36] bg-[#f8eee8]' : 'border-[#e2dfda] bg-[#faf9f7] hover:bg-white'">
-              <input v-model="reason" type="radio" name="reason" :value="option.key" class="h-5 w-5 accent-[#ad5733]">
+            <label v-for="option in options" :key="option.key" class="flex min-h-16 cursor-pointer items-center gap-4 border p-4 transition-colors" :class="reason === option.key ? 'border-[#746a5c] bg-[#f0efec]' : 'border-[#e2dfda] bg-[#faf9f7] hover:bg-white'">
+              <input v-model="reason" type="radio" name="reason" :value="option.key" class="h-5 w-5 accent-[#746a5c]">
               <span class="font-medium">{{ option.label }}</span>
             </label>
           </div>
