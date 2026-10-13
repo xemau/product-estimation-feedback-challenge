@@ -8,7 +8,6 @@ defineProps<{ presentation: Presentation }>()
   <article class="product-card overflow-hidden" :class="[presentation.style === 'dark' ? 'product-feature' : 'product-catalog', `scene-${presentation.scene}`]">
     <div class="product-image-wrap relative">
       <img :src="presentation.image" alt="Photograph of the product being valued" class="product-image" fetchpriority="high">
-      <span class="image-chip">Object {{ presentation.scene === 'iris' ? '01' : presentation.scene === 'ember' ? '02' : '03' }}</span>
     </div>
     <div class="product-copy">
       <div>
@@ -25,7 +24,6 @@ defineProps<{ presentation: Presentation }>()
 .product-card { display: grid; grid-template-columns: 1fr; min-height: 510px; border-radius: 1.7rem; box-shadow: 0 28px 70px rgba(34, 39, 103, .15); }
 .product-image-wrap { min-height: 315px; overflow: hidden; }
 .product-image { display: block; width: 100%; height: 100%; max-height: 470px; object-fit: cover; }
-.image-chip { position: absolute; top: 1.25rem; left: 1.25rem; padding: .6rem .85rem; border: 1px solid rgba(255,255,255,.8); border-radius: 999px; background: rgba(255,255,255,.64); backdrop-filter: blur(16px); color: #282d58; font-size: .6rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
 .product-copy { display: flex; flex-direction: column; justify-content: space-between; gap: 2rem; padding: 1.8rem; }
 .product-kicker { margin-bottom: 1.6rem; font-size: .67rem; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; }
 .product-title { max-width: 11ch; font-size: clamp(2rem, 3vw, 3.3rem); font-weight: 760; line-height: 1.06; letter-spacing: -.055em; overflow-wrap: anywhere; }

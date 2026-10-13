@@ -18,8 +18,8 @@ export default defineEventHandler((event): CommunityResults => {
   const completed = db.prepare("SELECT * FROM submissions WHERE phase = 'completed'").all() as unknown as SubmissionRow[]
   const completedCount = completed.length
   const categories: CategoryResult[] = products.map((product) => {
-    const ordinaryAverage = round(completed.reduce((sum, row) => sum + row[`${product.key}_ordinary`]!, 0) / completedCount)
-    const premiumAverage = round(completed.reduce((sum, row) => sum + row[`${product.key}_premium`]!, 0) / completedCount)
+    const ordinaryAverage = completedCount === 0 ? 0 : round(completed.reduce((sum, row) => sum + row[`${product.key}_ordinary`]!, 0) / completedCount)
+    const premiumAverage = completedCount === 0 ? 0 : round(completed.reduce((sum, row) => sum + row[`${product.key}_premium`]!, 0) / completedCount)
     const difference = round(premiumAverage - ordinaryAverage)
     return {
       category: product.key,
