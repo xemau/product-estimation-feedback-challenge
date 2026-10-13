@@ -7,6 +7,8 @@ export interface Presentation {
   name: string
   description: string
   style: 'light' | 'dark'
+  scene: 'iris' | 'ember' | 'mint'
+  kicker: string
 }
 
 export interface SessionState {

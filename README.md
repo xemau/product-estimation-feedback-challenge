@@ -1,6 +1,6 @@
 # The Price of Nothing
 
-A 1–2 minute, self-guided workshop experiment about how product presentation affects perceived value. It runs on one laptop and shares anonymous results with phones on the same Wi-Fi network. No account, cloud service, or runtime internet connection is needed.
+A 1–2 minute, self-guided workshop experiment about how product presentation affects perceived value. It runs on one laptop and shares results with phones on the same Wi-Fi network. No account, cloud service, or runtime internet connection is needed.
 
 ## Run it on local Wi-Fi
 
@@ -18,9 +18,9 @@ Run `npm run typecheck`, `npm run build`, then `npm run test:flow`. The flow tes
 
 ## How it works
 
-The server gives each browser a random anonymous participant cookie and saves randomized presentation order and progress in SQLite. The six estimates are saved one at a time. After the sixth estimate, the reveal becomes available. Submitting one reason and an optional note unlocks results. The reveal and results APIs check that progress on the server. A new browser must complete the experiment itself; **New Experiment** starts a new record without deleting earlier results.
+The server gives each browser a random participant cookie and saves randomized presentation order and progress in SQLite. The six estimates are saved one at a time. After the sixth estimate, the reveal becomes available. Submitting one reason and an optional note unlocks results. The reveal and results APIs check that progress on the server. A new browser must complete the experiment itself; **New Experiment** starts a new record without deleting earlier results.
 
-The dashboard counts started sessions as participants and uses completed experiments for all averages and reasons. A percentage difference is omitted when an ordinary average is zero. Written explanations are anonymous, displayed as plain text, and limited to the 50 most recent responses from other participants. There are no pilot or fabricated responses in the app.
+The dashboard counts started sessions as participants and uses completed experiments for all averages and reasons. A percentage difference is omitted when an ordinary average is zero. Written explanations appear without names, are displayed as plain text, and are limited to the 50 most recent responses from other participants. There are no pilot or fabricated responses in the app.
 
 ## Photography
 
@@ -28,8 +28,8 @@ The two presentations in each category point to the **same local file**. These a
 
 | File | Source | License |
 | --- | --- | --- |
-| `public/products/shirt.jpg` | [White T-shirt photo by Mediamodifier](https://unsplash.com/photos/white-crew-neck-t-shirt-Q0zoxQF7OUY) | [Unsplash License](https://unsplash.com/license) |
-| `public/products/mug.jpg` | [Ceramic mug photo by Alexandr Marynkin](https://unsplash.com/photos/white-ceramic-mug-on-white-surface-oJ9CgpidOco) | [Unsplash License](https://unsplash.com/license) |
-| `public/products/tote.jpg` | [Canvas tote photo by Artem Podrez](https://www.pexels.com/photo/a-man-in-black-clothing-holding-a-white-shopping-bag-6786901/) | [Pexels License](https://www.pexels.com/license/) |
+| `public/products/shirt.jpg` | [White T-shirt photo by MART PRODUCTION](https://www.pexels.com/photo/woman-in-white-crew-neck-t-shirt-9558752/) | [Pexels License](https://www.pexels.com/license/) |
+| `public/products/mug.jpg` | [White mug photo by eric anada](https://www.pexels.com/photo/white-ceramic-cup-1001990/) | [Pexels License](https://www.pexels.com/license/) |
+| `public/products/tote.jpg` | [Canvas tote photo by Alican Helik](https://www.pexels.com/photo/young-woman-in-a-casual-outfit-standing-outside-on-the-background-of-a-white-sheet-17849287/) | [Pexels License](https://www.pexels.com/license/) |
 
 The product names and marketing copy in the app are fictional and do not imply endorsement by the photographers or anyone pictured.

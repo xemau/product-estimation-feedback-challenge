@@ -23,7 +23,7 @@ async function newExperiment() {
     const session = await $fetch<SessionState>('/api/session', { method: 'POST', body: { restart: true } })
     if (session.phase === 'pricing') await navigateTo('/experiment')
   } catch {
-    errorMessage.value = 'We could not start a new experiment. Please try again.'
+    errorMessage.value = 'Could not start a new experiment. Please try again.'
   } finally {
     restarting.value = false
   }
@@ -37,14 +37,14 @@ async function newExperiment() {
       <div class="flex flex-wrap items-end justify-between gap-6">
         <div>
           <p class="eyebrow mb-5">The collective picture</p>
-          <h1 class="serif section-title">What we <em>valued.</em></h1>
+          <h1 class="section-title">What changed the <span class="gradient-text">price?</span></h1>
           <p class="mt-5 max-w-2xl leading-relaxed muted">The photographs stayed the same. These figures show how participants priced each presentation.</p>
         </div>
         <span class="pill">Refreshes every 10 seconds</span>
       </div>
 
       <div v-if="loadError" class="panel mt-10 p-8">
-        <p>We could not load the community results.</p>
+        <p>Community results could not load.</p>
         <button class="button-outline mt-5" @click="refresh()">Try again</button>
       </div>
       <template v-else-if="results">
@@ -59,16 +59,16 @@ async function newExperiment() {
         </div>
         <template v-else>
           <section class="mt-16">
-            <p class="eyebrow mb-3">Evidence 01 / Controlled comparison</p>
-            <h2 class="serif text-3xl md:text-4xl">One photograph. Two presentations.</h2>
+            <p class="eyebrow mb-3">The setup</p>
+            <h2 class="text-3xl font-bold tracking-[-.05em] md:text-4xl">One photograph. Two presentations.</h2>
             <p class="mt-3 max-w-2xl text-sm leading-relaxed muted">Each ordinary and editorial version used the exact same product image. The bars below are real averages from completed experiments.</p>
             <div class="mt-7 grid gap-5 lg:grid-cols-3">
               <article v-for="category in results.categories" :key="category.category" class="panel p-6">
                 <h3 class="serif text-2xl">{{ category.categoryName }}</h3>
                 <div class="mt-7 space-y-5">
-                  <div v-for="bar in [{ label: 'Everyday', value: category.ordinaryAverage, color: 'bg-[#bcb7ad]' }, { label: 'Editorial', value: category.premiumAverage, color: 'bg-[#a48048]' }]" :key="bar.label">
+                  <div v-for="bar in [{ label: 'Everyday', value: category.ordinaryAverage, color: 'bg-[#91a0c3]' }, { label: 'Editorial', value: category.premiumAverage, color: 'bg-[#655bee]' }]" :key="bar.label">
                     <div class="mb-2 flex justify-between gap-3 text-sm"><span>{{ bar.label }}</span><strong>{{ euro(bar.value) }}</strong></div>
-                    <div class="h-3 bg-[#eee9df]"><div class="h-full transition-[width] duration-500" :class="bar.color" :style="{ width: barWidth(bar.value, Math.max(category.ordinaryAverage, category.premiumAverage)) }" /></div>
+                    <div class="h-3 rounded-full bg-[#e0e4f6]"><div class="h-full rounded-full transition-[width] duration-500" :class="bar.color" :style="{ width: barWidth(bar.value, Math.max(category.ordinaryAverage, category.premiumAverage)) }" /></div>
                   </div>
                 </div>
                 <div class="mt-7 border-t hairline pt-4 text-sm"><span class="muted">Difference</span><strong class="float-right">{{ signedEuro(category.difference) }} <span class="font-normal muted">({{ signedPercent(category.percentageDifference) }})</span></strong></div>
@@ -78,13 +78,13 @@ async function newExperiment() {
 
           <section class="mt-16 grid gap-9 lg:grid-cols-[.9fr_1.1fr]">
             <div>
-              <p class="eyebrow mb-3">Evidence 02 / Participant estimates</p>
-              <h2 class="serif text-3xl md:text-4xl">Your view and the group.</h2>
+              <p class="eyebrow mb-3">The numbers</p>
+              <h2 class="text-3xl font-bold tracking-[-.05em] md:text-4xl">Your view and the group.</h2>
               <p class="mt-4 text-sm leading-relaxed muted">Your estimates are shown beside the averages from all completed experiments, including yours.</p>
             </div>
             <div class="panel overflow-x-auto">
               <table class="w-full min-w-[530px] text-left text-sm">
-                <thead class="bg-[#eee7da] text-[.66rem] tracking-[.13em] uppercase"><tr><th class="p-4">Product</th><th class="p-4">Your everyday</th><th class="p-4">Group everyday</th><th class="p-4">Your editorial</th><th class="p-4">Group editorial</th></tr></thead>
+                <thead class="bg-[#e3e5ff] text-[.66rem] tracking-[.13em] uppercase"><tr><th class="p-4">Product</th><th class="p-4">Your everyday</th><th class="p-4">Group everyday</th><th class="p-4">Your editorial</th><th class="p-4">Group editorial</th></tr></thead>
                 <tbody><tr v-for="category in results.categories" :key="category.category" class="border-t hairline"><th class="p-4 font-semibold">{{ category.categoryName }}</th><td class="p-4">{{ euro(category.myOrdinary) }}</td><td class="p-4 muted">{{ euro(category.ordinaryAverage) }}</td><td class="p-4">{{ euro(category.myPremium) }}</td><td class="p-4 muted">{{ euro(category.premiumAverage) }}</td></tr></tbody>
               </table>
             </div>
@@ -92,21 +92,21 @@ async function newExperiment() {
 
           <section class="mt-16 grid gap-6 lg:grid-cols-2">
             <div class="panel p-7 md:p-9">
-              <p class="eyebrow mb-3">What influenced us</p>
-              <h2 class="serif text-3xl">Reasons selected</h2>
+              <p class="eyebrow mb-3">The reasons</p>
+              <h2 class="text-3xl font-bold tracking-[-.05em]">What drove the choice</h2>
               <div class="mt-8 space-y-5">
                 <div v-for="reason in results.reasons" :key="reason.key">
                   <div class="mb-2 flex justify-between gap-3 text-sm"><span>{{ reason.label }}</span><strong>{{ reason.count }}</strong></div>
-                  <div class="h-2 bg-[#eee9df]"><div class="h-full bg-[#a48048]" :style="{ width: barWidth(reason.count, results.completedCount) }" /></div>
+                  <div class="h-2 rounded-full bg-[#e0e4f6]"><div class="h-full rounded-full bg-[#655bee]" :style="{ width: barWidth(reason.count, results.completedCount) }" /></div>
                 </div>
               </div>
             </div>
             <div class="panel p-7 md:p-9">
-              <p class="eyebrow mb-3">Anonymous voices</p>
-              <h2 class="serif text-3xl">In their own words</h2>
+              <p class="eyebrow mb-3">The notes</p>
+              <h2 class="text-3xl font-bold tracking-[-.05em]">In their own words</h2>
               <p class="mt-3 text-sm muted">Recent written explanations from other participants.</p>
               <div v-if="results.explanations.length" class="mt-6 max-h-[430px] space-y-3 overflow-y-auto pr-1">
-                <article v-for="explanation in results.explanations" :key="explanation.id" class="border border-[#e4ddd1] bg-[#faf7f0] p-5">
+                <article v-for="explanation in results.explanations" :key="explanation.id" class="rounded-2xl border border-white/90 bg-white/55 p-5">
                   <p class="leading-relaxed whitespace-pre-wrap break-words">{{ explanation.text }}</p>
                   <p class="mt-4 text-xs muted">{{ dateLabel(explanation.createdAt) }}</p>
                 </article>

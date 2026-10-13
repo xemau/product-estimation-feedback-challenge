@@ -5,39 +5,53 @@ defineProps<{ presentation: Presentation }>()
 </script>
 
 <template>
-  <article class="product-card overflow-hidden" :class="presentation.style === 'dark' ? 'product-editorial' : 'product-retail'">
-    <div class="product-image-wrap">
+  <article class="product-card overflow-hidden" :class="[presentation.style === 'dark' ? 'product-feature' : 'product-catalog', `scene-${presentation.scene}`]">
+    <div class="product-image-wrap relative">
       <img :src="presentation.image" alt="Photograph of the product being valued" class="product-image" fetchpriority="high">
+      <span class="image-chip">Object {{ presentation.scene === 'iris' ? '01' : presentation.scene === 'ember' ? '02' : '03' }}</span>
     </div>
     <div class="product-copy">
-      <p v-if="presentation.style === 'dark'" class="editorial-kicker">An object of everyday beauty</p>
-      <h2 :class="presentation.style === 'dark' ? 'serif editorial-title' : 'retail-title'">{{ presentation.name }}</h2>
-      <p class="product-description">{{ presentation.description }}</p>
-      <p v-if="presentation.style === 'dark'" class="editorial-footer">Form & feeling <span>✦</span> The collection</p>
+      <div>
+        <p class="product-kicker">{{ presentation.kicker }}</p>
+        <h2 class="product-title" :class="presentation.style === 'dark' ? 'serif' : ''">{{ presentation.name }}</h2>
+        <p class="product-description">{{ presentation.description }}</p>
+      </div>
+      <div class="product-bottom"><span>Consider the object</span><span aria-hidden="true">✳</span></div>
     </div>
   </article>
 </template>
 
 <style scoped>
-.product-card { display: grid; grid-template-columns: 1fr; min-height: 520px; }
-.product-image-wrap { min-height: 330px; overflow: hidden; }
-.product-image { width: 100%; height: 100%; max-height: 520px; object-fit: cover; }
-.product-copy { padding: 1.75rem; }
-.product-retail { background: #fff; border: 1px solid #e5e5e5; }
-.product-retail .product-image-wrap { background: #f3f3f3; }
-.retail-title { font-size: 1.55rem; font-weight: 650; letter-spacing: -.04em; }
-.product-description { max-width: 34rem; margin-top: .8rem; line-height: 1.65; }
-.product-retail .product-description { color: #555; }
-.product-editorial { background: #27251f; color: #f6f0e3; }
-.product-editorial .product-image-wrap { background: #c8bca8; }
-.editorial-kicker { margin-bottom: 1.1rem; color: #d2b27b; font-size: .65rem; font-weight: 700; letter-spacing: .25em; text-transform: uppercase; }
-.editorial-title { font-size: clamp(2.15rem, 3vw, 3.25rem); line-height: 1.05; letter-spacing: -.045em; overflow-wrap: anywhere; }
-.product-editorial .product-description { color: #d1c7b4; }
-.editorial-footer { display: flex; justify-content: space-between; max-width: 21rem; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #6c6251; color: #d2b27b; font-size: .64rem; letter-spacing: .2em; text-transform: uppercase; }
+.product-card { display: grid; grid-template-columns: 1fr; min-height: 510px; border-radius: 1.7rem; box-shadow: 0 28px 70px rgba(34, 39, 103, .15); }
+.product-image-wrap { min-height: 315px; overflow: hidden; }
+.product-image { display: block; width: 100%; height: 100%; max-height: 470px; object-fit: cover; }
+.image-chip { position: absolute; top: 1.25rem; left: 1.25rem; padding: .6rem .85rem; border: 1px solid rgba(255,255,255,.8); border-radius: 999px; background: rgba(255,255,255,.64); backdrop-filter: blur(16px); color: #282d58; font-size: .6rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+.product-copy { display: flex; flex-direction: column; justify-content: space-between; gap: 2rem; padding: 1.8rem; }
+.product-kicker { margin-bottom: 1.6rem; font-size: .67rem; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; }
+.product-title { max-width: 11ch; font-size: clamp(2rem, 3vw, 3.3rem); font-weight: 760; line-height: 1.06; letter-spacing: -.055em; overflow-wrap: anywhere; }
+.product-description { max-width: 30rem; margin-top: 1.3rem; line-height: 1.6; }
+.product-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 1rem; border-top: 1px solid currentColor; font-size: .65rem; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; opacity: .72; }
+.product-bottom span:last-child { font-size: 1.4rem; line-height: 1; }
+.product-catalog { border: 1px solid #fff; background: #fff; color: #25294b; }
+.product-catalog .product-image-wrap { background: #f0f1f6; }
+.product-catalog .product-kicker { color: #6a6f92; }
+.product-catalog .product-description { color: #656b85; }
+.product-catalog .product-bottom { border-color: #d8dbeb; }
+.product-feature { color: #fff; }
+.product-feature .product-kicker, .product-feature .product-bottom { color: var(--highlight); }
+.product-feature .product-title { font-size: clamp(2.25rem, 3.3vw, 3.7rem); font-weight: 400; }
+.product-feature .product-description { color: rgba(255,255,255,.79); }
+.product-feature .product-bottom { border-color: rgba(255,255,255,.34); }
+.scene-iris.product-feature { --highlight: #c6bbff; background: radial-gradient(circle at 84% 0%, #7764de, transparent 48%), linear-gradient(145deg, #2b286e, #171936); }
+.scene-ember.product-feature { --highlight: #ffc5a0; background: radial-gradient(circle at 16% 0%, #db875a, transparent 53%), linear-gradient(145deg, #743857, #241d3b); }
+.scene-mint.product-feature { --highlight: #99ecdb; background: radial-gradient(circle at 95% 14%, #1dbfa7, transparent 55%), linear-gradient(145deg, #195a68, #122a43); }
 @media (min-width: 760px) {
-  .product-card { grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); min-height: 580px; }
-  .product-image-wrap { min-height: 580px; }
+  .product-card { grid-template-columns: minmax(0, 1fr) minmax(0, .92fr); min-height: 565px; }
+  .product-image-wrap { min-height: 565px; }
   .product-image { max-height: none; }
-  .product-copy { display: flex; flex-direction: column; justify-content: center; padding: clamp(2rem, 5vw, 5rem); }
+  .product-copy { padding: clamp(2rem, 3.2vw, 3.5rem); }
+  .scene-ember.product-feature .product-image-wrap { order: 2; }
+  .scene-ember.product-feature .product-copy { order: 1; }
+  .scene-mint.product-feature { grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); }
 }
 </style>

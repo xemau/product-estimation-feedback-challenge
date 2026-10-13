@@ -17,13 +17,17 @@ export const products: readonly ProductDefinition[] = [
       image: '/products/shirt.jpg',
       name: 'Basic Cotton Tee',
       description: 'Standard white cotton T-shirt. An everyday wardrobe basic.',
-      style: 'light'
+      style: 'light',
+      scene: 'iris',
+      kicker: 'Everyday wardrobe / 01'
     },
     premium: {
       image: '/products/shirt.jpg',
       name: 'ATELIER Nº 01 — The Essential Form',
       description: 'An expression of timeless simplicity. Made for everyday refinement.',
-      style: 'dark'
+      style: 'dark',
+      scene: 'iris',
+      kicker: 'Atelier / 01'
     }
   },
   {
@@ -34,13 +38,17 @@ export const products: readonly ProductDefinition[] = [
       image: '/products/mug.jpg',
       name: 'Everyday Ceramic Mug',
       description: 'A simple white ceramic mug for coffee or tea.',
-      style: 'light'
+      style: 'light',
+      scene: 'ember',
+      kicker: 'Home goods / 02'
     },
     premium: {
       image: '/products/mug.jpg',
       name: 'MAISON Nº 02 — The Quiet Ritual',
       description: 'A considered form for the moments that make a day feel yours.',
-      style: 'dark'
+      style: 'dark',
+      scene: 'ember',
+      kicker: 'Maison / 02'
     }
   },
   {
@@ -51,13 +59,17 @@ export const products: readonly ProductDefinition[] = [
       image: '/products/tote.jpg',
       name: 'Plain Canvas Tote',
       description: 'A reusable canvas bag with two shoulder straps.',
-      style: 'light'
+      style: 'light',
+      scene: 'mint',
+      kicker: 'Daily carry / 03'
     },
     premium: {
       image: '/products/tote.jpg',
       name: 'STUDIO Nº 03 — Carry the Everyday',
       description: 'Quiet utility, thoughtfully carried. A companion for wherever the day leads.',
-      style: 'dark'
+      style: 'dark',
+      scene: 'mint',
+      kicker: 'Studio / 03'
     }
   }
 ]
