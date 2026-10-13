@@ -10,7 +10,7 @@ export default defineNuxtConfig({
       title: 'The Price of Nothing',
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'theme-color', content: '#f7f3eb' },
+        { name: 'theme-color', content: '#f6f5f2' },
         { name: 'description', content: 'A short experiment in the value of everyday things.' }
       ]
     }

@@ -3,9 +3,12 @@ import { dirname, resolve } from 'node:path'
 import { DatabaseSync } from 'node:sqlite'
 import type { Phase, ReasonKey } from '../../shared/types/experiment'
 
+export const EXPERIMENT_VERSION = 2
+
 export interface SubmissionRow {
   id: string
   token_hash: string
+  experiment_version: number
   created_at: string
   completed_at: string | null
   phase: Exclude<Phase, 'welcome'>
@@ -36,6 +39,7 @@ export function getDatabase(): DatabaseSync {
     CREATE TABLE IF NOT EXISTS submissions (
       id TEXT PRIMARY KEY,
       token_hash TEXT NOT NULL UNIQUE,
+      experiment_version INTEGER NOT NULL DEFAULT 2,
       created_at TEXT NOT NULL,
       completed_at TEXT,
       phase TEXT NOT NULL CHECK (phase IN ('pricing', 'reveal', 'feedback', 'completed')),
@@ -54,6 +58,10 @@ export function getDatabase(): DatabaseSync {
     ) STRICT;
     CREATE INDEX IF NOT EXISTS submissions_completed_at ON submissions(completed_at);
   `)
+  const columns = database.prepare('PRAGMA table_info(submissions)').all() as { name: string }[]
+  if (!columns.some((column) => column.name === 'experiment_version')) {
+    database.exec('ALTER TABLE submissions ADD COLUMN experiment_version INTEGER NOT NULL DEFAULT 1')
+  }
   return database
 }
 

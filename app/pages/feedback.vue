@@ -50,15 +50,16 @@ async function submitFeedback() {
         <fieldset>
           <legend class="mb-5 text-sm font-bold tracking-[.12em] uppercase">Select one reason</legend>
           <div class="grid gap-3">
-            <label v-for="option in options" :key="option.key" class="flex min-h-16 cursor-pointer items-center gap-4 rounded-2xl border p-4 transition-colors" :class="reason === option.key ? 'border-[#776cf1] bg-[#e8e6ff]/80 shadow-lg shadow-indigo-100/60' : 'border-white/90 bg-white/45 hover:bg-white/80'">
-              <input v-model="reason" type="radio" name="reason" :value="option.key" class="h-5 w-5 accent-[#655bee]">
+            <label v-for="option in options" :key="option.key" class="flex min-h-16 cursor-pointer items-center gap-4 border p-4 transition-colors" :class="reason === option.key ? 'border-[#b95d36] bg-[#f8eee8]' : 'border-[#e2dfda] bg-[#faf9f7] hover:bg-white'">
+              <input v-model="reason" type="radio" name="reason" :value="option.key" class="h-5 w-5 accent-[#ad5733]">
               <span class="font-medium">{{ option.label }}</span>
             </label>
           </div>
         </fieldset>
         <div class="mt-9">
-          <label for="explanation" class="block text-sm font-bold tracking-[.12em] uppercase">Add a note <span class="font-normal normal-case tracking-normal muted">(optional, shown without a name in results)</span></label>
-          <textarea id="explanation" v-model="explanation" rows="4" maxlength="200" placeholder="What shaped your first impression?" class="mt-3 w-full resize-y rounded-2xl border border-white/90 bg-white/65 p-4 leading-relaxed"></textarea>
+          <label for="explanation" class="block text-sm font-bold tracking-[.12em] uppercase">Add a note <span class="font-normal normal-case tracking-normal muted">(optional)</span></label>
+          <p class="mt-2 text-sm muted">Other participants can read your note in the results.</p>
+          <textarea id="explanation" v-model="explanation" rows="4" maxlength="200" placeholder="What shaped your first impression?" class="mt-3 w-full resize-y border border-[#d7d3cd] bg-[#faf9f7] p-4 leading-relaxed"></textarea>
           <p class="mt-2 text-right text-xs muted">{{ Array.from(explanation).length }}/200</p>
         </div>
         <p v-if="errorMessage" class="field-error mt-5" role="alert">{{ errorMessage }}</p>

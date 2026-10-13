@@ -65,7 +65,7 @@ test('participants finish in order and results stay private until completion', a
       const current = await request('/api/session', { cookie })
       assert.equal(current.data.phase, 'pricing')
       assert.equal(current.data.stepIndex, stepIndex)
-      seenImages.push(current.data.presentation.image)
+      seenImages.push(current.data.presentation.images)
       seenSpecifications.push(current.data.presentation.specifications)
       const estimate = await request('/api/estimates', { method: 'POST', cookie, body: { stepIndex, euros: 10 + stepIndex } })
       assert.equal(estimate.status, 200)
@@ -73,11 +73,16 @@ test('participants finish in order and results stay private until completion', a
       assert.equal(replay.status, 200)
       assert.equal(replay.data.phase, estimate.data.phase)
     }
-    assert.deepEqual([seenImages[0], seenImages[2], seenImages[4]], [seenImages[1], seenImages[3], seenImages[5]])
+    for (let index = 0; index < 6; index += 2) {
+      assert.ok(seenImages[index].length >= 3)
+      assert.deepEqual([...seenImages[index]].sort(), [...seenImages[index + 1]].sort())
+      assert.notEqual(seenImages[index][0], seenImages[index + 1][0])
+    }
     assert.deepEqual([seenSpecifications[0], seenSpecifications[2], seenSpecifications[4]], [seenSpecifications[1], seenSpecifications[3], seenSpecifications[5]])
     const reveal = await request('/api/reveal', { cookie })
     assert.equal(reveal.status, 200)
     assert.equal(reveal.data.length, 3)
+    for (const product of reveal.data) assert.notEqual(product.ordinary.image, product.premium.image)
     assert.equal((await request('/api/results', { cookie })).status, 403)
     assert.equal((await request('/api/feedback', { method: 'POST', cookie, body: { reason, explanation: note } })).status, 403)
     assert.equal((await request('/api/reveal/continue', { method: 'POST', cookie })).data.phase, 'feedback')
@@ -91,6 +96,12 @@ test('participants finish in order and results stay private until completion', a
     assert.equal((await request('/api/session')).data.phase, 'welcome')
     assert.equal((await request('/api/results')).status, 401)
     assert.equal((await request('/api/reveal')).status, 401)
+    assert.equal((await request('/api/dashboard/results')).status, 401)
+    assert.equal((await request('/api/dashboard/login', { method: 'POST', body: { password: 'wrong' } })).status, 401)
+    const dashboardLogin = await request('/api/dashboard/login', { method: 'POST', body: { password: 'cool' } })
+    const dashboardCookie = dashboardLogin.cookie
+    assert.ok(dashboardCookie)
+    assert.equal((await request('/api/dashboard/results', { cookie: dashboardCookie })).data.completedCount, 0)
     const blockedPage = await request('/results')
     assert.equal(blockedPage.status, 302)
     assert.equal(blockedPage.location, '/')
@@ -110,6 +121,9 @@ test('participants finish in order and results stay private until completion', a
     assert.equal(firstResults.data.explanations.length, 0)
     assert.equal(firstResults.data.reasons.find((value) => value.key === 'branding').count, 1)
     assert.equal((await request('/results', { cookie: firstCookie })).status, 200)
+    assert.equal((await request('/api/dashboard/results', { cookie: dashboardCookie })).data.explanations.length, 1)
+    assert.equal((await request('/api/dashboard/reset', { method: 'POST', cookie: dashboardCookie, body: { password: 'wrong' } })).status, 403)
+    assert.equal((await request('/api/dashboard/results', { cookie: dashboardCookie })).data.completedCount, 1)
 
     const second = await request('/api/session', { method: 'POST' })
     const secondCookie = second.cookie
@@ -129,6 +143,12 @@ test('participants finish in order and results stay private until completion', a
     await startServer()
     assert.equal((await request('/api/results', { cookie: firstCookie })).data.completedCount, 2)
     assert.equal((await request('/api/session', { cookie: restarted.cookie })).data.stepIndex, 0)
+    assert.equal((await request('/api/dashboard/results', { cookie: dashboardCookie })).status, 401)
+    const newDashboardCookie = (await request('/api/dashboard/login', { method: 'POST', body: { password: 'cool' } })).cookie
+    assert.equal((await request('/api/dashboard/results', { cookie: newDashboardCookie })).data.completedCount, 2)
+    assert.equal((await request('/api/dashboard/reset', { method: 'POST', cookie: newDashboardCookie, body: { password: 'cool' } })).data.reset, true)
+    assert.equal((await request('/api/dashboard/results', { cookie: newDashboardCookie })).data.participantCount, 0)
+    assert.equal((await request('/api/session', { cookie: firstCookie })).data.phase, 'welcome')
   } finally {
     await stopServer()
     await rm(directory, { recursive: true, force: true })

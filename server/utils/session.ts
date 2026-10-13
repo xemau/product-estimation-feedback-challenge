@@ -2,7 +2,7 @@ import { createHash, randomBytes, randomInt, randomUUID } from 'node:crypto'
 import { createError, getCookie, setCookie, setHeader, type H3Event } from 'h3'
 import type { SessionState } from '../../shared/types/experiment'
 import { products } from './catalog'
-import { getDatabase, getSubmissionByHash, type SubmissionRow } from './database'
+import { EXPERIMENT_VERSION, getDatabase, getSubmissionByHash, type SubmissionRow } from './database'
 
 const cookieName = 'price_of_nothing_participant'
 
@@ -17,7 +17,8 @@ export function tokenHash(token: string): string {
 export function currentSubmission(event: H3Event): SubmissionRow | undefined {
   const token = getCookie(event, cookieName)
   if (!token || !/^[A-Za-z0-9_-]{43}$/.test(token)) return undefined
-  return getSubmissionByHash(tokenHash(token))
+  const row = getSubmissionByHash(tokenHash(token))
+  return row?.experiment_version === EXPERIMENT_VERSION ? row : undefined
 }
 
 export function requireSubmission(event: H3Event): SubmissionRow {
@@ -31,10 +32,10 @@ export function createSubmission(event: H3Event): SubmissionRow {
   const id = randomUUID()
   getDatabase().prepare(`
     INSERT INTO submissions (
-      id, token_hash, created_at, phase, step_index,
+      id, token_hash, experiment_version, created_at, phase, step_index,
       shirt_premium_first, mug_premium_first, tote_premium_first
-    ) VALUES (?, ?, ?, 'pricing', 0, ?, ?, ?)
-  `).run(id, tokenHash(token), new Date().toISOString(), randomInt(2), randomInt(2), randomInt(2))
+    ) VALUES (?, ?, ?, ?, 'pricing', 0, ?, ?, ?)
+  `).run(id, tokenHash(token), EXPERIMENT_VERSION, new Date().toISOString(), randomInt(2), randomInt(2), randomInt(2))
   setCookie(event, cookieName, token, {
     httpOnly: true,
     sameSite: 'lax',

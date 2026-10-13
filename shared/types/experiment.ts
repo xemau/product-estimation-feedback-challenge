@@ -3,12 +3,11 @@ export type CategoryKey = 'shirt' | 'mug' | 'tote'
 export type ReasonKey = 'branding' | 'photography' | 'description' | 'quality' | 'other'
 
 export interface Presentation {
-  image: string
+  images: string[]
   name: string
   description: string
   specifications: string[]
-  style: 'light' | 'dark'
-  scene: 'iris' | 'ember' | 'mint'
+  style: 'catalog' | 'editorial'
   kicker: string
 }
 
@@ -23,9 +22,8 @@ export interface SessionState {
 export interface RevealItem {
   category: CategoryKey
   categoryName: string
-  image: string
-  ordinary: { name: string; price: number }
-  premium: { name: string; price: number }
+  ordinary: { name: string; price: number; image: string }
+  premium: { name: string; price: number; image: string }
   difference: number
 }
 
@@ -40,10 +38,14 @@ export interface CategoryResult {
   myPremium: number
 }
 
-export interface CommunityResults {
+export interface DashboardResults {
   participantCount: number
   completedCount: number
-  categories: CategoryResult[]
+  categories: Omit<CategoryResult, 'myOrdinary' | 'myPremium'>[]
   reasons: { key: ReasonKey; label: string; count: number }[]
   explanations: { id: string; text: string; createdAt: string }[]
+}
+
+export interface CommunityResults extends Omit<DashboardResults, 'categories'> {
+  categories: CategoryResult[]
 }

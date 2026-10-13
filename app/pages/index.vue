@@ -23,33 +23,27 @@ async function start() {
   <div class="page-shell">
     <SiteHeader />
     <main class="content-wrap">
-      <section class="grid min-h-[calc(100dvh-4.75rem)] items-center gap-10 py-12 lg:grid-cols-[1.08fr_.92fr] lg:gap-12 lg:py-20">
-        <div class="relative z-10">
-          <span class="pill mb-7">✦ &nbsp; A quick experiment in value</span>
-          <h1 class="headline max-w-[840px] uppercase">The Price<br><span class="gradient-text">of Nothing.</span></h1>
-          <p class="mt-7 max-w-xl text-xl font-semibold leading-snug md:text-3xl">How much is something really worth?</p>
-          <p class="mt-4 max-w-xl text-base leading-relaxed muted md:text-lg">Estimate six everyday product presentations. Go with your first instinct, then see how your choices compare.</p>
+      <section class="grid min-h-[calc(100dvh-4rem)] items-center gap-10 py-10 lg:grid-cols-[.95fr_1.05fr] lg:gap-15 lg:py-20">
+        <div class="relative z-10 min-w-0">
+          <p class="eyebrow mb-6">The value experiment / 001</p>
+          <h1 class="headline max-w-[800px] uppercase">The Price<br><span class="serif italic font-normal">of Nothing.</span></h1>
+          <div class="mt-8 h-px w-25 bg-[#bb603d]" />
+          <p class="mt-8 max-w-lg text-2xl font-medium leading-snug md:text-3xl">How much is something really worth?</p>
+          <p class="mt-4 max-w-lg text-base leading-relaxed muted md:text-lg">Explore everyday products, estimate what you would pay, then discover what shaped your choices.</p>
           <div class="mt-9 flex flex-wrap items-center gap-4">
-            <button class="button-primary min-w-58" :disabled="starting" @click="start">{{ starting ? 'Starting…' : 'Start experiment' }} <span aria-hidden="true">↗</span></button>
-            <span class="pill">About 2 minutes</span>
+            <button class="button-primary min-w-58" :disabled="starting" @click="start">{{ starting ? 'Starting…' : 'Start experiment' }} <span aria-hidden="true">→</span></button>
+            <span class="text-xs font-semibold uppercase tracking-[.08em] muted">About 2 minutes</span>
           </div>
           <p v-if="errorMessage" class="field-error mt-4" role="alert">{{ errorMessage }}</p>
-          <div class="mt-14 flex flex-wrap gap-x-8 gap-y-3 border-t hairline pt-5 text-[.67rem] font-extrabold tracking-[.14em] uppercase muted">
-            <span><b class="text-[#5750d9]">01</b> &nbsp; Look</span>
-            <span><b class="text-[#5750d9]">02</b> &nbsp; Estimate</span>
-            <span><b class="text-[#5750d9]">03</b> &nbsp; Discover</span>
+          <div class="mt-12 flex flex-wrap gap-x-8 gap-y-3 border-t hairline pt-5 text-[.68rem] font-bold tracking-[.11em] uppercase muted">
+            <span>01 &nbsp; Explore</span><span>02 &nbsp; Estimate</span><span>03 &nbsp; Discover</span>
           </div>
         </div>
-        <div class="hero-stage relative mx-auto flex h-[390px] w-full max-w-[550px] items-center justify-center sm:h-[520px]" aria-hidden="true">
-          <div class="hero-orb absolute h-[290px] w-[290px] rounded-full sm:h-[410px] sm:w-[410px]" />
-          <div class="absolute left-[2%] top-[12%] h-24 w-24 rounded-[2rem] border border-white/70 bg-white/30 backdrop-blur-xl sm:h-32 sm:w-32" />
-          <div class="absolute bottom-[8%] right-[1%] h-28 w-28 rounded-full border border-white/70 bg-white/35 backdrop-blur-xl sm:h-42 sm:w-42" />
-          <div class="hero-glass relative z-10 flex h-[280px] w-[72%] max-w-[370px] flex-col justify-between rounded-[2rem] p-7 sm:h-[370px] sm:p-10">
-            <span class="text-[.7rem] font-black tracking-[.24em] uppercase">Perception / 001</span>
-            <span class="text-[6.5rem] font-black leading-none tracking-[-.11em] sm:text-[9rem]">€?</span>
-            <span class="flex items-center justify-between border-t border-white/60 pt-4 text-xs font-bold tracking-[.12em] uppercase"><span>Your instinct</span><span>↗</span></span>
-          </div>
-          <div class="absolute right-[2%] top-[13%] z-20 rounded-2xl border border-white/75 bg-white/70 px-5 py-3 text-[.66rem] font-black tracking-[.13em] uppercase shadow-xl shadow-indigo-200/50 backdrop-blur-xl">What do you see?</div>
+        <div class="hero-gallery grid h-[440px] min-w-0 grid-cols-[1.18fr_.82fr] grid-rows-2 gap-2 sm:h-[590px]" aria-hidden="true">
+          <div class="relative row-span-2 overflow-hidden bg-[#e8e5df]"><img src="/products/shirt-4.jpg" alt="" class="h-full w-full object-cover object-center"></div>
+          <div class="overflow-hidden bg-[#e8e5df]"><img src="/products/mug-4.jpg" alt="" class="h-full w-full object-cover"></div>
+          <div class="overflow-hidden bg-[#e8e5df]"><img src="/products/tote-2.jpg" alt="" class="h-full w-full object-cover object-center"></div>
+          <div class="absolute bottom-4 left-4 border border-white/70 bg-white/80 px-4 py-3 text-xs font-semibold tracking-[.09em] uppercase backdrop-blur-xl sm:bottom-6 sm:left-6">What would you pay? &nbsp; ↗</div>
         </div>
       </section>
     </main>
@@ -57,6 +51,7 @@ async function start() {
 </template>
 
 <style scoped>
-.hero-orb { background: radial-gradient(circle at 25% 20%, #fff 0%, #c4c8ff 24%, #7064ed 52%, #f79bbd 78%, #ffc4a9 100%); filter: drop-shadow(0 40px 55px rgba(87, 75, 210, .25)); }
-.hero-glass { border: 1px solid rgba(255, 255, 255, .75); background: linear-gradient(145deg, rgba(255, 255, 255, .54), rgba(255, 255, 255, .16)); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0 30px 60px rgba(59, 54, 150, .2), inset 0 2px rgba(255, 255, 255, .55); color: #252561; transform: rotate(-8deg); }
+.hero-gallery { position: relative; }
+.hero-gallery img { display: block; transition: transform .5s ease; }
+.hero-gallery > div:hover img { transform: scale(1.025); }
 </style>

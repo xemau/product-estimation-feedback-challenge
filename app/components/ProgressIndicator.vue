@@ -9,7 +9,7 @@ defineProps<{ stepIndex: number }>()
       <span class="muted">View {{ stepIndex % 2 + 1 }} of 2</span>
     </div>
     <div class="grid grid-cols-6 gap-1.5" aria-hidden="true">
-      <span v-for="index in 6" :key="index" class="h-1.5 rounded-full" :class="index <= stepIndex + 1 ? 'bg-[#655bee]' : 'bg-white/75'" />
+      <span v-for="index in 6" :key="index" class="h-1.5" :class="index <= stepIndex + 1 ? 'bg-[#b95d36]' : 'bg-[#dfddd8]'" />
     </div>
   </div>
 </template>

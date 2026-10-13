@@ -14,9 +14,8 @@ export default defineEventHandler((event) => {
     return {
       category: product.key,
       categoryName: product.categoryName,
-      image: product.image,
-      ordinary: { name: product.ordinary.name, price: ordinary },
-      premium: { name: product.premium.name, price: premium },
+      ordinary: { name: product.ordinary.name, price: ordinary, image: product.ordinary.images[0]! },
+      premium: { name: product.premium.name, price: premium, image: product.premium.images[0]! },
       difference: premium - ordinary
     }
   })

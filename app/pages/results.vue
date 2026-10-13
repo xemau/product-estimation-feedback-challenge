@@ -38,7 +38,7 @@ async function newExperiment() {
         <div>
           <p class="eyebrow mb-5">The collective picture</p>
           <h1 class="section-title">What changed the <span class="gradient-text">price?</span></h1>
-          <p class="mt-5 max-w-2xl leading-relaxed muted">The photographs stayed the same. These figures show how participants priced each presentation.</p>
+          <p class="mt-5 max-w-2xl leading-relaxed muted">The same product appeared twice with different lead photos, copy and page styling. These figures show what participants were willing to pay for each presentation.</p>
         </div>
         <span class="pill">Refreshes every 10 seconds</span>
       </div>
@@ -60,15 +60,15 @@ async function newExperiment() {
         <template v-else>
           <section class="mt-16">
             <p class="eyebrow mb-3">The setup</p>
-            <h2 class="text-3xl font-bold tracking-[-.05em] md:text-4xl">One photograph. Two presentations.</h2>
-            <p class="mt-3 max-w-2xl text-sm leading-relaxed muted">Each ordinary and editorial version used the exact same product image. The bars below are real averages from completed experiments.</p>
+            <h2 class="text-3xl font-semibold tracking-[-.05em] md:text-4xl">One product. Two presentations.</h2>
+            <p class="mt-3 max-w-2xl text-sm leading-relaxed muted">Each pair used the same physical item and material details. The bars show real averages from completed experiments.</p>
             <div class="mt-7 grid gap-5 lg:grid-cols-3">
               <article v-for="category in results.categories" :key="category.category" class="panel p-6">
                 <h3 class="serif text-2xl">{{ category.categoryName }}</h3>
                 <div class="mt-7 space-y-5">
-                  <div v-for="bar in [{ label: 'Everyday', value: category.ordinaryAverage, color: 'bg-[#91a0c3]' }, { label: 'Editorial', value: category.premiumAverage, color: 'bg-[#655bee]' }]" :key="bar.label">
+                  <div v-for="bar in [{ label: 'Listing', value: category.ordinaryAverage, color: 'bg-[#aaa59d]' }, { label: 'Editorial', value: category.premiumAverage, color: 'bg-[#bc6843]' }]" :key="bar.label">
                     <div class="mb-2 flex justify-between gap-3 text-sm"><span>{{ bar.label }}</span><strong>{{ euro(bar.value) }}</strong></div>
-                    <div class="h-3 rounded-full bg-[#e0e4f6]"><div class="h-full rounded-full transition-[width] duration-500" :class="bar.color" :style="{ width: barWidth(bar.value, Math.max(category.ordinaryAverage, category.premiumAverage)) }" /></div>
+                    <div class="h-3 bg-[#ebe8e2]"><div class="h-full transition-[width] duration-500" :class="bar.color" :style="{ width: barWidth(bar.value, Math.max(category.ordinaryAverage, category.premiumAverage)) }" /></div>
                   </div>
                 </div>
                 <div class="mt-7 border-t hairline pt-4 text-sm"><span class="muted">Difference</span><strong class="float-right">{{ signedEuro(category.difference) }} <span class="font-normal muted">({{ signedPercent(category.percentageDifference) }})</span></strong></div>
@@ -84,7 +84,7 @@ async function newExperiment() {
             </div>
             <div class="panel overflow-x-auto">
               <table class="w-full min-w-[530px] text-left text-sm">
-                <thead class="bg-[#e3e5ff] text-[.66rem] tracking-[.13em] uppercase"><tr><th class="p-4">Product</th><th class="p-4">Your everyday</th><th class="p-4">Group everyday</th><th class="p-4">Your editorial</th><th class="p-4">Group editorial</th></tr></thead>
+                <thead class="bg-[#f0eee9] text-[.66rem] tracking-[.13em] uppercase"><tr><th class="p-4">Product</th><th class="p-4">Your listing</th><th class="p-4">Group listing</th><th class="p-4">Your editorial</th><th class="p-4">Group editorial</th></tr></thead>
                 <tbody><tr v-for="category in results.categories" :key="category.category" class="border-t hairline"><th class="p-4 font-semibold">{{ category.categoryName }}</th><td class="p-4">{{ euro(category.myOrdinary) }}</td><td class="p-4 muted">{{ euro(category.ordinaryAverage) }}</td><td class="p-4">{{ euro(category.myPremium) }}</td><td class="p-4 muted">{{ euro(category.premiumAverage) }}</td></tr></tbody>
               </table>
             </div>
@@ -97,7 +97,7 @@ async function newExperiment() {
               <div class="mt-8 space-y-5">
                 <div v-for="reason in results.reasons" :key="reason.key">
                   <div class="mb-2 flex justify-between gap-3 text-sm"><span>{{ reason.label }}</span><strong>{{ reason.count }}</strong></div>
-                  <div class="h-2 rounded-full bg-[#e0e4f6]"><div class="h-full rounded-full bg-[#655bee]" :style="{ width: barWidth(reason.count, results.completedCount) }" /></div>
+                  <div class="h-2 bg-[#ebe8e2]"><div class="h-full bg-[#bc6843]" :style="{ width: barWidth(reason.count, results.completedCount) }" /></div>
                 </div>
               </div>
             </div>
@@ -106,7 +106,7 @@ async function newExperiment() {
               <h2 class="text-3xl font-bold tracking-[-.05em]">In their own words</h2>
               <p class="mt-3 text-sm muted">Recent written explanations from other participants.</p>
               <div v-if="results.explanations.length" class="mt-6 max-h-[430px] space-y-3 overflow-y-auto pr-1">
-                <article v-for="explanation in results.explanations" :key="explanation.id" class="rounded-2xl border border-white/90 bg-white/55 p-5">
+                <article v-for="explanation in results.explanations" :key="explanation.id" class="border border-[#e4e1db] bg-[#faf9f7] p-5">
                   <p class="leading-relaxed whitespace-pre-wrap break-words">{{ explanation.text }}</p>
                   <p class="mt-4 text-xs muted">{{ dateLabel(explanation.createdAt) }}</p>
                 </article>
