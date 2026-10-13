@@ -6,6 +6,7 @@ export interface Presentation {
   image: string
   name: string
   description: string
+  specifications: string[]
   style: 'light' | 'dark'
   scene: 'iris' | 'ember' | 'mint'
   kicker: string

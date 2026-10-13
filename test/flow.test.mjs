@@ -60,11 +60,13 @@ test('participants finish in order and results stay private until completion', a
 
   const finish = async (cookie, note, reason = 'branding') => {
     const seenImages = []
+    const seenSpecifications = []
     for (let stepIndex = 0; stepIndex < 6; stepIndex++) {
       const current = await request('/api/session', { cookie })
       assert.equal(current.data.phase, 'pricing')
       assert.equal(current.data.stepIndex, stepIndex)
       seenImages.push(current.data.presentation.image)
+      seenSpecifications.push(current.data.presentation.specifications)
       const estimate = await request('/api/estimates', { method: 'POST', cookie, body: { stepIndex, euros: 10 + stepIndex } })
       assert.equal(estimate.status, 200)
       const replay = await request('/api/estimates', { method: 'POST', cookie, body: { stepIndex, euros: 10 + stepIndex } })
@@ -72,6 +74,7 @@ test('participants finish in order and results stay private until completion', a
       assert.equal(replay.data.phase, estimate.data.phase)
     }
     assert.deepEqual([seenImages[0], seenImages[2], seenImages[4]], [seenImages[1], seenImages[3], seenImages[5]])
+    assert.deepEqual([seenSpecifications[0], seenSpecifications[2], seenSpecifications[4]], [seenSpecifications[1], seenSpecifications[3], seenSpecifications[5]])
     const reveal = await request('/api/reveal', { cookie })
     assert.equal(reveal.status, 200)
     assert.equal(reveal.data.length, 3)

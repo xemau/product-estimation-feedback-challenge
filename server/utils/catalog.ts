@@ -15,19 +15,21 @@ export const products: readonly ProductDefinition[] = [
     image: '/products/shirt.jpg',
     ordinary: {
       image: '/products/shirt.jpg',
-      name: 'Basic Cotton Tee',
-      description: 'Standard white cotton T-shirt. An everyday wardrobe basic.',
+      name: 'Cotton Crew T-shirt',
+      description: 'A white cotton jersey T-shirt with a crew neckline, short sleeves, and a relaxed shape.',
+      specifications: ['Cotton jersey', 'Crew neck', 'Short sleeves'],
       style: 'light',
       scene: 'iris',
-      kicker: 'Everyday wardrobe / 01'
+      kicker: 'Wardrobe / 01'
     },
     premium: {
       image: '/products/shirt.jpg',
-      name: 'ATELIER Nº 01 — The Essential Form',
-      description: 'An expression of timeless simplicity. Made for everyday refinement.',
+      name: 'Form 01: Cotton Tee',
+      description: 'A relaxed white T-shirt in cotton jersey, cut with short sleeves and a clean crew neckline.',
+      specifications: ['Cotton jersey', 'Crew neck', 'Short sleeves'],
       style: 'dark',
       scene: 'iris',
-      kicker: 'Atelier / 01'
+      kicker: 'Form / 01'
     }
   },
   {
@@ -36,19 +38,21 @@ export const products: readonly ProductDefinition[] = [
     image: '/products/mug.jpg',
     ordinary: {
       image: '/products/mug.jpg',
-      name: 'Everyday Ceramic Mug',
-      description: 'A simple white ceramic mug for coffee or tea.',
+      name: 'White Ceramic Mug',
+      description: 'A white glazed ceramic mug with a straight-sided body and a single rounded handle.',
+      specifications: ['Glazed ceramic', 'Single handle', 'Straight-sided'],
       style: 'light',
       scene: 'ember',
-      kicker: 'Home goods / 02'
+      kicker: 'Tableware / 02'
     },
     premium: {
       image: '/products/mug.jpg',
-      name: 'MAISON Nº 02 — The Quiet Ritual',
-      description: 'A considered form for the moments that make a day feel yours.',
+      name: 'Ritual 02: Ceramic Mug',
+      description: 'A straight-sided mug in white glazed ceramic, finished with one rounded handle.',
+      specifications: ['Glazed ceramic', 'Single handle', 'Straight-sided'],
       style: 'dark',
       scene: 'ember',
-      kicker: 'Maison / 02'
+      kicker: 'Ritual / 02'
     }
   },
   {
@@ -57,19 +61,21 @@ export const products: readonly ProductDefinition[] = [
     image: '/products/tote.jpg',
     ordinary: {
       image: '/products/tote.jpg',
-      name: 'Plain Canvas Tote',
-      description: 'A reusable canvas bag with two shoulder straps.',
+      name: 'Canvas Tote Bag',
+      description: 'A plain canvas bag with an open top and two long straps for carrying over the shoulder.',
+      specifications: ['Canvas', 'Open top', 'Shoulder straps'],
       style: 'light',
       scene: 'mint',
-      kicker: 'Daily carry / 03'
+      kicker: 'Carry goods / 03'
     },
     premium: {
       image: '/products/tote.jpg',
-      name: 'STUDIO Nº 03 — Carry the Everyday',
-      description: 'Quiet utility, thoughtfully carried. A companion for wherever the day leads.',
+      name: 'Carry 03: Canvas Tote',
+      description: 'An open-top canvas tote with two long shoulder straps and a simple, unprinted finish.',
+      specifications: ['Canvas', 'Open top', 'Shoulder straps'],
       style: 'dark',
       scene: 'mint',
-      kicker: 'Studio / 03'
+      kicker: 'Everyday / 03'
     }
   }
 ]

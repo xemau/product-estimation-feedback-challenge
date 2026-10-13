@@ -11,7 +11,7 @@ onUnmounted(() => { if (refreshTimer) clearInterval(refreshTimer) })
 
 const euro = (value: number) => new Intl.NumberFormat('en-IE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 2 }).format(value)
 const signedEuro = (value: number) => `${value > 0 ? '+' : ''}${euro(value)}`
-const signedPercent = (value: number | null) => value === null ? '—' : `${value > 0 ? '+' : ''}${value}%`
+const signedPercent = (value: number | null) => value === null ? 'n/a' : `${value > 0 ? '+' : ''}${value}%`
 const barWidth = (value: number, max: number) => `${max === 0 ? 0 : Math.max(value > 0 ? 4 : 0, value / max * 100)}%`
 const dateLabel = (value: string) => new Intl.DateTimeFormat('en', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value))
 

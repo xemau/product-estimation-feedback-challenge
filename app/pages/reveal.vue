@@ -27,7 +27,7 @@ async function continueToFeedback() {
       <div class="max-w-3xl">
         <span class="pill mb-8">The reveal</span>
         <h1 class="section-title">You were looking at the <span class="gradient-text">same products</span> all along.</h1>
-        <p class="mt-6 max-w-2xl text-lg leading-relaxed muted">Each pair used the same photograph and underlying object. Only the name, description, and surrounding presentation changed.</p>
+        <p class="mt-6 max-w-2xl text-lg leading-relaxed muted">Each pair used the same photograph, material, and construction details. The name, description, and styling changed.</p>
       </div>
       <div v-if="loadError" class="mt-12 panel p-8">
         <p>Your comparison could not load.</p>
