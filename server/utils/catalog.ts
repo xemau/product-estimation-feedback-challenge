@@ -25,7 +25,7 @@ export const products: readonly ProductDefinition[] = [
     premium: {
       image: '/products/shirt.jpg',
       name: 'Form 01: Cotton Tee',
-      description: 'A relaxed white T-shirt in cotton jersey, cut with short sleeves and a clean crew neckline.',
+      description: 'The tee you reach for without thinking. Cotton jersey, a relaxed shape, and a clean crew neckline give everyday outfits an easy starting point.',
       specifications: ['Cotton jersey', 'Crew neck', 'Short sleeves'],
       style: 'dark',
       scene: 'iris',
@@ -48,7 +48,7 @@ export const products: readonly ProductDefinition[] = [
     premium: {
       image: '/products/mug.jpg',
       name: 'Ritual 02: Ceramic Mug',
-      description: 'A straight-sided mug in white glazed ceramic, finished with one rounded handle.',
+      description: 'Turn the first coffee of the day into a small ritual. White glazed ceramic and a clean, straight-sided shape make even a quick pause feel considered.',
       specifications: ['Glazed ceramic', 'Single handle', 'Straight-sided'],
       style: 'dark',
       scene: 'ember',
@@ -71,7 +71,7 @@ export const products: readonly ProductDefinition[] = [
     premium: {
       image: '/products/tote.jpg',
       name: 'Carry 03: Canvas Tote',
-      description: 'An open-top canvas tote with two long shoulder straps and a simple, unprinted finish.',
+      description: 'From morning errands to evening plans, this canvas tote moves with the day. Its unprinted finish and long shoulder straps keep the look effortless.',
       specifications: ['Canvas', 'Open top', 'Shoulder straps'],
       style: 'dark',
       scene: 'mint',
